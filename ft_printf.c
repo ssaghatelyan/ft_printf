@@ -1,29 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssaghate <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/17 20:50:02 by ssaghate          #+#    #+#             */
+/*   Updated: 2026/02/20 16:05:00 by ssaghate         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-static int	ft_conversion(char type, va_list vargs)
+static int handle_percent(const char *format, va_list *args)
 {
-	if (type == 'c')
-		return (ft_print_char(va_arg(vargs, int)));
-	else if (type == 'u')
-		return (ft_print_unsigned_int(va_arg(vargs, unsigned int)));
-	else if ((type == 'i') || (type == 'd'))
-		return (ft_print_int(va_arg(vargs, int)));
-	else if (type == 's')
-		return (ft_print_string(va_arg(vargs, char *)));
-	else if (type == 'x' || type == 'X')
-		return (ft_print_hex(va_arg(vargs, unsigned int), type));
-	else if (type == 'p')
-		return (ft_print_pointer(va_arg(vargs, void *)));
-	else if (type == '%')
-		return (ft_print_char('%'));
-	return (-1);
+	if (!*format)
+		return (-1);
+	return (ft_conversion(*format, args));
 }
 
 int	ft_printf(const char *format, ...)
 {
-	va_list args;
-	int count;
+	int		count;
+	int		tmp;
+	va_list	args;
 
+	if (!format)
+		return (-1);
 	count = 0;
 	va_start(args, format);
 	while (*format)
@@ -31,10 +34,19 @@ int	ft_printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			count += ft_conversion(*format, args);
+			if (!*format)
+			tmp = handle_percent(*format, &args);
+			if (tmp == -1)
+				return (-1);
+			count += tmp;
+		}
+		else if (write(1, format, 1) == -1)
+		{
+			va_end(args);
+			return (-1);
 		}
 		else
-			count += ft_putchar_fd(*format, 1);
+			count++;
 		format++;
 	}
 	va_end(args);

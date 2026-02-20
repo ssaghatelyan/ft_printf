@@ -1,7 +1,7 @@
 NAME = libftprintf.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -Ilibft
 
 SRC = ft_printf.c \
       ft_print_char.c \
@@ -9,9 +9,12 @@ SRC = ft_printf.c \
       ft_print_int.c \
       ft_print_unsigned_int.c \
       ft_print_hex.c \
-      ft_print_pointer.c 
+      ft_print_pointer.c \
+	  ft_conversion.c
 
 OBJ = $(SRC:.c=.o)
+
+LIBFT = libft/libft.a
 
 AR = ar rcs
 RM = rm -f
@@ -19,6 +22,8 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME): $(OBJ)
+	make -C libft
+	cp $(LIBFT) $(NAME)
 	$(AR) $(NAME) $(OBJ)
 
 %.o: %.c
@@ -26,9 +31,11 @@ $(NAME): $(OBJ)
 
 clean:
 	$(RM) $(OBJ)
+	make -C libft clean
 
 fclean: clean
 	$(RM) $(NAME)
+	make -C libft fclean
 
 re: fclean all
 
