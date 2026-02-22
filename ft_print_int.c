@@ -17,6 +17,7 @@ int	ft_print_int(int n)
 	long	num;
 	int		count;
 	int		tmp;
+	char		c;
 
 	num = n;
 	count = 0;
@@ -34,7 +35,8 @@ int	ft_print_int(int n)
 			return (-1);
 		count += tmp;
 	}
-	if (write(1, (num % 10) + '0', 1) == -1)
+	c = (num % 10) + '0';
+	if (write(1, &c, 1) == -1)
 		return (-1);
 	return (count + 1);
 }

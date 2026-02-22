@@ -16,6 +16,7 @@ int	ft_print_unsigned_int(unsigned int n)
 {
 	int	count;
 	int	tmp;
+	char	c;
 
 	count = 0;
 	if (n >= 10)
@@ -25,7 +26,8 @@ int	ft_print_unsigned_int(unsigned int n)
 			return (-1);
 		count += tmp;
 	}
-	if (write(1, (n % 10) + '0', 1) == -1)
+	c = (n % 10) + '0';
+	if (write(1, &c, 1) == -1)
 		return (-1);
 	return (count + 1);
 }

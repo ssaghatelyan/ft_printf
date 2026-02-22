@@ -28,7 +28,7 @@ int	ft_printf(const char *format, ...)
 		{
 			format++;
 			if (!*format)
-				retrun (va_end(args), -1);
+				return (va_end(args), -1);
 			tmp = ft_conversion(*format, &args);
 			if (tmp == -1)
 				return (va_end(args), -1);
