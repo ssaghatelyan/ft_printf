@@ -15,11 +15,17 @@
 int	ft_print_unsigned_int(unsigned int n)
 {
 	int	count;
+	int	tmp;
 
 	count = 0;
 	if (n >= 10)
-		count += ft_print_unsigned_int(n / 10);
-	ft_putchar_fd((n % 10) + '0', 1);
-	count++;
-	return (count);
+	{
+		tmp = ft_print_unsigned_int(n / 10);
+		if (tmp == -1)
+			return (-1);
+		count += tmp;
+	}
+	if (write(1, (n % 10) + '0', 1) == -1)
+		return (-1);
+	return (count + 1);
 }

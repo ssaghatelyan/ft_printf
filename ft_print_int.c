@@ -16,18 +16,25 @@ int	ft_print_int(int n)
 {
 	long	num;
 	int		count;
+	int		tmp;
 
 	num = n;
 	count = 0;
 	if (num < 0)
 	{
-		ft_putchar_fd('-', 1);
+		if (write(1, "-", 1) == -1)
+			return (-1);
 		count++;
 		num = -num;
 	}
 	if (num >= 10)
-		count += ft_print_int(num / 10);
-	ft_putchar_fd((num % 10) + '0', 1);
-	count++;
-	return (count);
+	{
+		tmp = ft_print_int(num / 10);
+		if (tmp == -1)
+			return (-1);
+		count += tmp;
+	}
+	if (write(1, (num % 10) + '0', 1) == -1)
+		return (-1);
+	return (count + 1);
 }

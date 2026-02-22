@@ -15,7 +15,7 @@
 int	ft_print_pointer(void *ptr)
 {
 	int				count;
-	int				hex_len;
+	int				tmp;
 	unsigned long	address;
 
 	count = 0;
@@ -24,9 +24,9 @@ int	ft_print_pointer(void *ptr)
 		return (ft_print_string("(nil)"));
 	if (write(1, "0x", 2) == -1)
 		return (-1);
-	hex_len = ft_print_hex(address, 'x');
-	if (hex_len == -1)
+	tmp = ft_print_hex(address, 'x');
+	if (tmp == -1)
 		return (-1);
-	count = hex_len + 2;
+	count = tmp + 2;
 	return (count);
 }

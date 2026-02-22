@@ -12,13 +12,6 @@
 
 #include "ft_printf.h"
 
-static int handle_percent(const char *format, va_list *args)
-{
-	if (!*format)
-		return (-1);
-	return (ft_conversion(*format, args));
-}
-
 int	ft_printf(const char *format, ...)
 {
 	int		count;
@@ -35,18 +28,18 @@ int	ft_printf(const char *format, ...)
 		{
 			format++;
 			if (!*format)
-			tmp = handle_percent(*format, &args);
+				retrun (va_end(args), -1);
+			tmp = ft_conversion(*format, &args);
 			if (tmp == -1)
-				return (-1);
+				return (va_end(args), -1);
 			count += tmp;
 		}
-		else if (write(1, format, 1) == -1)
-		{
-			va_end(args);
-			return (-1);
-		}
 		else
+		{
+			if (write(1, format, 1) == -1)
+				return (va_end(args), -1);
 			count++;
+		}
 		format++;
 	}
 	va_end(args);

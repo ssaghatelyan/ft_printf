@@ -15,6 +15,7 @@
 int	ft_print_hex(unsigned long nb, char case_)
 {
 	int		count;
+	int		tmp;
 	char	*base;
 
 	if (case_ == 'X')
@@ -24,7 +25,10 @@ int	ft_print_hex(unsigned long nb, char case_)
 	count = 0;
 	if (nb >= 16)
 	{
-		count += ft_print_hex(nb / 16, case_);
+		tmp = ft_print_hex(nb / 16, case_);
+		if (tmp == -1)
+			return (-1);
+		count += tmp;
 	}
 	if (write(1, &base[nb % 16], 1) == -1)
 		return (-1);
